@@ -1,0 +1,287 @@
+{
+  "checkpoint": "/workspace/ml/checkpoints/minilm_l12",
+  "split": "valid",
+  "examples": 700,
+  "intent_accuracy": 0.9885714285714285,
+  "slot_sentence_accuracy": 0.88,
+  "exact_frame_accuracy": 0.88,
+  "failed_frames": 84,
+  "failures_by_intent": {
+    "AddToPlaylist": 9,
+    "BookRestaurant": 15,
+    "GetWeather": 1,
+    "PlayMusic": 29,
+    "RateBook": 6,
+    "SearchCreativeWork": 13,
+    "SearchScreeningEvent": 11
+  },
+  "intent_confusions": [
+    {
+      "gold": "SearchScreeningEvent",
+      "predicted": "SearchCreativeWork",
+      "count": 6
+    },
+    {
+      "gold": "PlayMusic",
+      "predicted": "BookRestaurant",
+      "count": 1
+    },
+    {
+      "gold": "PlayMusic",
+      "predicted": "AddToPlaylist",
+      "count": 1
+    }
+  ],
+  "top_slot_confusions": [
+    {
+      "gold": "I-album",
+      "predicted": "I-track",
+      "count": 15
+    },
+    {
+      "gold": "I-movie_name",
+      "predicted": "I-object_name",
+      "count": 13
+    },
+    {
+      "gold": "B-album",
+      "predicted": "B-track",
+      "count": 7
+    },
+    {
+      "gold": "I-playlist",
+      "predicted": "I-track",
+      "count": 7
+    },
+    {
+      "gold": "O",
+      "predicted": "B-object_name",
+      "count": 6
+    },
+    {
+      "gold": "B-object_name",
+      "predicted": "O",
+      "count": 6
+    },
+    {
+      "gold": "B-movie_name",
+      "predicted": "B-object_name",
+      "count": 6
+    },
+    {
+      "gold": "I-poi",
+      "predicted": "I-restaurant_name",
+      "count": 5
+    },
+    {
+      "gold": "I-object_name",
+      "predicted": "B-object_name",
+      "count": 5
+    },
+    {
+      "gold": "B-object_name",
+      "predicted": "I-object_name",
+      "count": 5
+    },
+    {
+      "gold": "I-album",
+      "predicted": "I-artist",
+      "count": 4
+    },
+    {
+      "gold": "I-album",
+      "predicted": "I-entity_name",
+      "count": 4
+    },
+    {
+      "gold": "I-playlist",
+      "predicted": "I-entity_name",
+      "count": 3
+    },
+    {
+      "gold": "I-track",
+      "predicted": "I-album",
+      "count": 3
+    },
+    {
+      "gold": "B-album",
+      "predicted": "O",
+      "count": 3
+    },
+    {
+      "gold": "O",
+      "predicted": "I-object_name",
+      "count": 3
+    },
+    {
+      "gold": "I-movie_name",
+      "predicted": "O",
+      "count": 3
+    },
+    {
+      "gold": "B-playlist",
+      "predicted": "B-entity_name",
+      "count": 2
+    },
+    {
+      "gold": "I-entity_name",
+      "predicted": "I-playlist",
+      "count": 2
+    },
+    {
+      "gold": "O",
+      "predicted": "I-entity_name",
+      "count": 2
+    },
+    {
+      "gold": "B-playlist",
+      "predicted": "O",
+      "count": 2
+    },
+    {
+      "gold": "I-playlist",
+      "predicted": "B-playlist",
+      "count": 2
+    },
+    {
+      "gold": "B-entity_name",
+      "predicted": "O",
+      "count": 2
+    },
+    {
+      "gold": "I-entity_name",
+      "predicted": "B-entity_name",
+      "count": 2
+    },
+    {
+      "gold": "I-entity_name",
+      "predicted": "B-music_item",
+      "count": 2
+    },
+    {
+      "gold": "B-cuisine",
+      "predicted": "B-served_dish",
+      "count": 2
+    },
+    {
+      "gold": "O",
+      "predicted": "B-restaurant_type",
+      "count": 2
+    },
+    {
+      "gold": "I-country",
+      "predicted": "I-state",
+      "count": 2
+    },
+    {
+      "gold": "B-album",
+      "predicted": "B-playlist",
+      "count": 2
+    },
+    {
+      "gold": "I-album",
+      "predicted": "I-playlist",
+      "count": 2
+    },
+    {
+      "gold": "I-music_item",
+      "predicted": "I-object_type",
+      "count": 2
+    },
+    {
+      "gold": "B-playlist",
+      "predicted": "B-track",
+      "count": 2
+    },
+    {
+      "gold": "I-album",
+      "predicted": "O",
+      "count": 2
+    },
+    {
+      "gold": "B-music_item",
+      "predicted": "O",
+      "count": 2
+    },
+    {
+      "gold": "I-genre",
+      "predicted": "I-service",
+      "count": 2
+    },
+    {
+      "gold": "B-object_select",
+      "predicted": "O",
+      "count": 2
+    },
+    {
+      "gold": "I-object_select",
+      "predicted": "B-object_select",
+      "count": 2
+    },
+    {
+      "gold": "O",
+      "predicted": "B-spatial_relation",
+      "count": 2
+    },
+    {
+      "gold": "B-entity_name",
+      "predicted": "B-playlist",
+      "count": 1
+    },
+    {
+      "gold": "B-artist",
+      "predicted": "I-artist",
+      "count": 1
+    },
+    {
+      "gold": "O",
+      "predicted": "B-playlist",
+      "count": 1
+    },
+    {
+      "gold": "B-artist",
+      "predicted": "B-entity_name",
+      "count": 1
+    },
+    {
+      "gold": "I-artist",
+      "predicted": "I-entity_name",
+      "count": 1
+    },
+    {
+      "gold": "O",
+      "predicted": "I-playlist",
+      "count": 1
+    },
+    {
+      "gold": "B-entity_name",
+      "predicted": "B-artist",
+      "count": 1
+    },
+    {
+      "gold": "I-playlist",
+      "predicted": "O",
+      "count": 1
+    },
+    {
+      "gold": "I-cuisine",
+      "predicted": "I-served_dish",
+      "count": 1
+    },
+    {
+      "gold": "I-poi",
+      "predicted": "O",
+      "count": 1
+    },
+    {
+      "gold": "I-cuisine",
+      "predicted": "I-country",
+      "count": 1
+    },
+    {
+      "gold": "B-restaurant_type",
+      "predicted": "B-restaurant_name",
+      "count": 1
+    }
+  ]
+}

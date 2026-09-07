@@ -1,0 +1,26 @@
+{
+  "raw": {
+    "intent_accuracy": 0.9871428571428571,
+    "slot_f1": 0.9553398058252428,
+    "slot_sentence_accuracy": 0.8971428571428571,
+    "exact_frame_accuracy": 0.8971428571428571
+  },
+  "intent_mask": {
+    "intent_accuracy": 0.9871428571428571,
+    "slot_f1": 0.9553398058252428,
+    "slot_sentence_accuracy": 0.8971428571428571,
+    "exact_frame_accuracy": 0.8971428571428571
+  },
+  "intent_mask_bio": {
+    "intent_accuracy": 0.9871428571428571,
+    "slot_f1": 0.9588431590656284,
+    "slot_sentence_accuracy": 0.9028571428571428,
+    "exact_frame_accuracy": 0.9028571428571428
+  },
+  "oracle_intent_bio": {
+    "intent_accuracy": 1.0,
+    "slot_f1": 0.9621802002224694,
+    "slot_sentence_accuracy": 0.9114285714285715,
+    "exact_frame_accuracy": 0.9114285714285715
+  }
+}

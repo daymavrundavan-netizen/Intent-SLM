@@ -1,0 +1,14 @@
+{
+  "model": "/workspace/ml/exported/champion_v4/command_slm_fp32.onnx",
+  "split": "valid",
+  "examples": 700,
+  "intent_accuracy": 0.9871428571428571,
+  "slot_f1": 0.9588431590656284,
+  "slot_sentence_accuracy": 0.9028571428571428,
+  "exact_frame_accuracy": 0.9028571428571428,
+  "latency_ms": {
+    "mean": 15.498643657197785,
+    "p50": 14.69195150093583,
+    "p95": 22.739310700853817
+  }
+}

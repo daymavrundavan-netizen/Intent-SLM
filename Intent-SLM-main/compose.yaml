@@ -1,0 +1,27 @@
+services:
+  cdac:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: cdac-slm
+
+    working_dir: /workspace
+
+    volumes:
+      - ./:/workspace
+
+    environment:
+      HF_HOME: /workspace/cache/huggingface
+      HF_DATASETS_CACHE: /workspace/cache/huggingface/datasets
+      TORCH_HOME: /workspace/cache/torch
+      PIP_CACHE_DIR: /workspace/cache/pip
+      TOKENIZERS_PARALLELISM: "true"
+
+    stdin_open: true
+    tty: true
+
+    ipc: host
+    shm_size: "8gb"
+
+    gpus: all

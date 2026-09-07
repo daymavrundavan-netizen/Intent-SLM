@@ -1,0 +1,578 @@
+package org.cdac.hackathon.cdac_assistant
+
+import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
+import android.media.AudioManager
+import android.os.Handler
+import android.os.Looper
+import android.view.KeyEvent
+import android.os.Build
+import android.provider.MediaStore
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
+
+
+class MainActivity : FlutterActivity() {
+
+    companion object {
+        private const val CHANNEL =
+            "org.cdac.hackathon.cdac_assistant/device_actions"
+
+        private const val CAMERA_PERMISSION_REQUEST = 5001
+    }
+
+    private var pendingTorchResult: MethodChannel.Result? = null
+    private var pendingTorchEnabled: Boolean = false
+
+
+    override fun configureFlutterEngine(
+        flutterEngine: FlutterEngine
+    ) {
+        super.configureFlutterEngine(flutterEngine)
+
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            CHANNEL
+        ).setMethodCallHandler { call, result ->
+
+            try {
+                when (call.method) {
+
+                    "openCamera" -> {
+                        result.success(openCamera())
+                    }
+
+                    "openCalculator" -> {
+                        result.success(openCalculator())
+                    }
+
+                    "openBrowser" -> {
+                        result.success(openBrowser())
+                    }
+
+                    "playMusic" -> {
+                        result.success(playMusic())
+                    }
+
+                    "setFlashlight" -> {
+                        val enabled =
+                            call.argument<Boolean>("enabled")
+                                ?: false
+
+                        handleFlashlight(
+                            enabled,
+                            result
+                        )
+                    }
+
+                    else -> {
+                        result.notImplemented()
+                    }
+                }
+            } catch (e: Exception) {
+                result.error(
+                    "DEVICE_ACTION_FAILED",
+                    e.message ?: e.javaClass.simpleName,
+                    null
+                )
+            }
+        }
+    }
+
+
+    private fun openCamera(): String {
+        try {
+            val intent = Intent(
+                MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA
+            )
+
+            startActivity(intent)
+
+            return "Camera opened"
+        } catch (e: ActivityNotFoundException) {
+            val fallback =
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+            startActivity(fallback)
+
+            return "Camera opened"
+        }
+    }
+
+
+    private fun openCalculator(): String {
+
+        /*
+         * First try OEM calculator packages.
+         *
+         * Your phone is Oplus/Realme based, so
+         * com.coloros / com.oplus are intentionally
+         * checked first.
+         */
+        val calculatorPackages = listOf(
+            "com.coloros.calculator",
+            "com.oplus.calculator",
+            "com.android.calculator2",
+            "com.google.android.calculator",
+            "com.oneplus.calculator",
+            "com.miui.calculator",
+            "com.sec.android.app.popupcalculator"
+        )
+
+        for (packageName in calculatorPackages) {
+            val launchIntent =
+                packageManager
+                    .getLaunchIntentForPackage(
+                        packageName
+                    )
+
+            if (launchIntent != null) {
+                launchIntent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+                )
+
+                startActivity(launchIntent)
+
+                return "Calculator opened"
+            }
+        }
+
+        /*
+         * Second attempt:
+         * Android standard calculator category.
+         */
+        val standardIntent =
+            Intent.makeMainSelectorActivity(
+                Intent.ACTION_MAIN,
+                Intent.CATEGORY_APP_CALCULATOR
+            )
+
+        if (
+            standardIntent.resolveActivity(
+                packageManager
+            ) != null
+        ) {
+            startActivity(standardIntent)
+
+            return "Calculator opened"
+        }
+
+        /*
+         * Last fallback:
+         * Look through launcher activities and
+         * find one whose label/package resembles
+         * calculator.
+         */
+        val launcherIntent =
+            Intent(Intent.ACTION_MAIN)
+                .addCategory(
+                    Intent.CATEGORY_LAUNCHER
+                )
+
+        @Suppress("DEPRECATION")
+        val activities =
+            packageManager.queryIntentActivities(
+                launcherIntent,
+                0
+            )
+
+        val calculatorActivity =
+            activities.firstOrNull { info ->
+
+                val label =
+                    info.loadLabel(packageManager)
+                        .toString()
+                        .lowercase()
+
+                val packageName =
+                    info.activityInfo
+                        .packageName
+                        .lowercase()
+
+                label.contains("calculator") ||
+                    label == "calc" ||
+                    packageName.contains(
+                        "calculator"
+                    )
+            }
+
+        if (calculatorActivity != null) {
+
+            val intent =
+                Intent(Intent.ACTION_MAIN)
+                    .addCategory(
+                        Intent.CATEGORY_LAUNCHER
+                    )
+                    .setClassName(
+                        calculatorActivity
+                            .activityInfo
+                            .packageName,
+
+                        calculatorActivity
+                            .activityInfo
+                            .name
+                    )
+
+            startActivity(intent)
+
+            return "Calculator opened"
+        }
+
+        throw ActivityNotFoundException(
+            "Calculator app was not found on this device."
+        )
+    }
+
+
+    private fun openBrowser(): String {
+        val intent =
+            Intent.makeMainSelectorActivity(
+                Intent.ACTION_MAIN,
+                Intent.CATEGORY_APP_BROWSER
+            )
+
+        if (
+            intent.resolveActivity(
+                packageManager
+            ) == null
+        ) {
+            throw ActivityNotFoundException(
+                "No browser application found."
+            )
+        }
+
+        startActivity(intent)
+
+        return "Browser opened"
+    }
+
+
+    private fun dispatchMediaPlay() {
+        val audioManager =
+            getSystemService(
+                Context.AUDIO_SERVICE
+            ) as AudioManager
+
+        audioManager.dispatchMediaKeyEvent(
+            KeyEvent(
+                KeyEvent.ACTION_DOWN,
+                KeyEvent.KEYCODE_MEDIA_PLAY
+            )
+        )
+
+        audioManager.dispatchMediaKeyEvent(
+            KeyEvent(
+                KeyEvent.ACTION_UP,
+                KeyEvent.KEYCODE_MEDIA_PLAY
+            )
+        )
+    }
+
+
+    private fun playMusic(): String {
+
+        /*
+         * Generic command:
+         *
+         *   "play the music"
+         *
+         * Product behaviour:
+         *
+         *   1. Open a music application.
+         *   2. Give it time to create its media session.
+         *   3. Send Android MEDIA_PLAY.
+         *
+         * Champion V4 is not modified.
+         */
+
+        var musicAppOpened = false
+
+        /*
+         * Preferred approach:
+         * ask Android for the user's/default music app.
+         */
+        try {
+            val musicIntent =
+                Intent.makeMainSelectorActivity(
+                    Intent.ACTION_MAIN,
+                    Intent.CATEGORY_APP_MUSIC
+                )
+
+            musicIntent.addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP
+            )
+
+            startActivity(musicIntent)
+
+            musicAppOpened = true
+
+        } catch (_: Exception) {
+            /*
+             * Fall through to known installed
+             * music applications.
+             */
+        }
+
+
+        /*
+         * OEM / installed-app fallback.
+         *
+         * Your Realme device currently has several
+         * possible music applications installed.
+         */
+        if (!musicAppOpened) {
+
+            val musicPackages = listOf(
+                "com.heytap.music",
+                "com.bsbportal.music",
+                "com.google.android.apps.youtube.music",
+                "com.google.android.music"
+            )
+
+            for (packageName in musicPackages) {
+
+                try {
+                    val launchIntent =
+                        packageManager
+                            .getLaunchIntentForPackage(
+                                packageName
+                            )
+
+                    if (launchIntent != null) {
+
+                        launchIntent.addFlags(
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        )
+
+                        startActivity(launchIntent)
+
+                        musicAppOpened = true
+
+                        break
+                    }
+
+                } catch (_: Exception) {
+                    // Try the next music package.
+                }
+            }
+        }
+
+
+        /*
+         * Start/resume playback after the music app
+         * has had time to initialize its MediaSession.
+         */
+        Handler(
+            Looper.getMainLooper()
+        ).postDelayed({
+
+            try {
+                dispatchMediaPlay()
+            } catch (_: Exception) {
+                // App launch itself has already succeeded.
+            }
+
+        }, 1200)
+
+
+        if (musicAppOpened) {
+            return "Music player opened — playback requested"
+        }
+
+
+        /*
+         * Last fallback:
+         * even if no launchable music activity was
+         * available, ask an existing media session
+         * to resume playback.
+         */
+        dispatchMediaPlay()
+
+        return "Playback requested"
+    }
+
+
+    private fun handleFlashlight(
+        enabled: Boolean,
+        result: MethodChannel.Result
+    ) {
+        if (
+            Build.VERSION.SDK_INT <
+            Build.VERSION_CODES.M
+        ) {
+            result.error(
+                "TORCH_UNSUPPORTED",
+                "Flashlight control requires Android 6 or newer.",
+                null
+            )
+
+            return
+        }
+
+        /*
+         * Request camera permission if this OEM
+         * requires it for direct torch access.
+         */
+        if (
+            checkSelfPermission(
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingTorchEnabled = enabled
+            pendingTorchResult = result
+
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.CAMERA
+                ),
+                CAMERA_PERMISSION_REQUEST
+            )
+
+            return
+        }
+
+        performFlashlight(
+            enabled,
+            result
+        )
+    }
+
+
+    private fun performFlashlight(
+        enabled: Boolean,
+        result: MethodChannel.Result
+    ) {
+        try {
+            val cameraManager =
+                getSystemService(
+                    Context.CAMERA_SERVICE
+                ) as CameraManager
+
+            /*
+             * Prefer rear camera + flash.
+             */
+            val rearFlashCamera =
+                cameraManager.cameraIdList
+                    .firstOrNull { cameraId ->
+
+                        val info =
+                            cameraManager
+                                .getCameraCharacteristics(
+                                    cameraId
+                                )
+
+                        val hasFlash =
+                            info.get(
+                                CameraCharacteristics
+                                    .FLASH_INFO_AVAILABLE
+                            ) == true
+
+                        val facing =
+                            info.get(
+                                CameraCharacteristics
+                                    .LENS_FACING
+                            )
+
+                        hasFlash &&
+                            facing ==
+                            CameraCharacteristics
+                                .LENS_FACING_BACK
+                    }
+
+            /*
+             * If an unusual phone exposes flash
+             * differently, use any camera with flash.
+             */
+            val fallbackFlashCamera =
+                cameraManager.cameraIdList
+                    .firstOrNull { cameraId ->
+
+                        val info =
+                            cameraManager
+                                .getCameraCharacteristics(
+                                    cameraId
+                                )
+
+                        info.get(
+                            CameraCharacteristics
+                                .FLASH_INFO_AVAILABLE
+                        ) == true
+                    }
+
+            val cameraId =
+                rearFlashCamera
+                    ?: fallbackFlashCamera
+                    ?: throw IllegalStateException(
+                        "This device has no controllable flashlight."
+                    )
+
+            cameraManager.setTorchMode(
+                cameraId,
+                enabled
+            )
+
+            result.success(
+                if (enabled) {
+                    "Flashlight turned on"
+                } else {
+                    "Flashlight turned off"
+                }
+            )
+
+        } catch (e: Exception) {
+            result.error(
+                "TORCH_FAILED",
+                e.message ?: e.javaClass.simpleName,
+                null
+            )
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(
+            requestCode,
+            permissions,
+            grantResults
+        )
+
+        if (
+            requestCode ==
+            CAMERA_PERMISSION_REQUEST
+        ) {
+            val result =
+                pendingTorchResult
+
+            pendingTorchResult = null
+
+            if (
+                grantResults.isNotEmpty() &&
+                grantResults[0] ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                if (result != null) {
+                    performFlashlight(
+                        pendingTorchEnabled,
+                        result
+                    )
+                }
+            } else {
+                result?.error(
+                    "CAMERA_PERMISSION_DENIED",
+                    "Camera permission is required for flashlight control.",
+                    null
+                )
+            }
+        }
+    }
+}

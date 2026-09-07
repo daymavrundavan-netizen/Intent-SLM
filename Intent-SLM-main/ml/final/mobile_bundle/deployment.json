@@ -1,0 +1,19 @@
+{
+  "model": "CDAC Command SLM V4",
+  "architecture": "IntentConditionedCommandSLM",
+  "onnx_file": "command_slm_fp32.onnx",
+  "max_length": 48,
+  "inputs": [
+    "input_ids",
+    "attention_mask",
+    "token_type_ids"
+  ],
+  "outputs": [
+    "intent_logits",
+    "slot_logits"
+  ],
+  "deployment_decoder": [
+    "intent_slot_mask",
+    "bio_constrained_viterbi"
+  ]
+}

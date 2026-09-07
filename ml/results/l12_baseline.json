@@ -1,0 +1,7 @@
+{
+  "epoch": 8,
+  "train_loss": 0.09979797705828014,
+  "intent_accuracy": 0.9885714285714285,
+  "slot_f1": 0.949528563505269,
+  "exact_frame_accuracy": 0.88
+}

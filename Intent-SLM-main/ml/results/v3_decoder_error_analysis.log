@@ -1,0 +1,270 @@
+================================================================================
+V3 + MASK + BIO ERROR ANALYSIS
+================================================================================
+Examples        : 700
+Intent accuracy : 0.9871 (98.71%)
+Exact frame     : 0.9000 (90.00%)
+Failed frames   : 70
+
+================================================================================
+FAILURES BY TRUE INTENT
+================================================================================
+PlayMusic                   : 18
+BookRestaurant              : 14
+SearchCreativeWork          : 11
+SearchScreeningEvent        : 11
+AddToPlaylist               : 10
+RateBook                    : 5
+GetWeather                  : 1
+
+================================================================================
+INTENT CONFUSIONS
+================================================================================
+SearchScreeningEvent         -> SearchCreativeWork           : 6
+PlayMusic                    -> AddToPlaylist                : 2
+PlayMusic                    -> BookRestaurant               : 1
+
+================================================================================
+TOP SLOT CONFUSIONS
+================================================================================
+I-album                             -> I-track                             : 13
+I-movie_name                        -> I-object_name                       : 13
+O                                   -> B-object_name                       : 8
+B-object_name                       -> I-object_name                       : 6
+B-movie_name                        -> B-object_name                       : 6
+B-album                             -> B-track                             : 5
+B-object_name                       -> O                                   : 5
+I-playlist                          -> I-track                             : 4
+I-album                             -> I-entity_name                       : 4
+I-object_name                       -> B-object_name                       : 4
+I-playlist                          -> I-entity_name                       : 3
+I-track                             -> I-album                             : 3
+I-playlist                          -> I-album                             : 3
+O                                   -> I-object_name                       : 3
+I-movie_name                        -> O                                   : 3
+B-playlist                          -> B-entity_name                       : 2
+I-entity_name                       -> I-playlist                          : 2
+B-artist                            -> B-entity_name                       : 2
+I-artist                            -> I-entity_name                       : 2
+B-playlist                          -> O                                   : 2
+I-playlist                          -> B-playlist                          : 2
+B-entity_name                       -> O                                   : 2
+I-entity_name                       -> B-entity_name                       : 2
+I-entity_name                       -> B-music_item                        : 2
+B-cuisine                           -> B-served_dish                       : 2
+O                                   -> B-restaurant_type                   : 2
+B-city                              -> B-poi                               : 2
+I-country                           -> I-state                             : 2
+I-album                             -> I-playlist                          : 2
+B-album                             -> O                                   : 2
+I-album                             -> O                                   : 2
+B-object_select                     -> O                                   : 2
+I-object_select                     -> B-object_select                     : 2
+B-entity_name                       -> B-playlist                          : 1
+O                                   -> I-entity_name                       : 1
+O                                   -> B-artist                            : 1
+B-artist                            -> I-artist                            : 1
+O                                   -> B-playlist                          : 1
+O                                   -> I-playlist                          : 1
+B-entity_name                       -> B-artist                            : 1
+
+================================================================================
+TOP MISSED SLOTS
+================================================================================
+B-object_name                           : 5
+I-movie_name                            : 3
+B-playlist                              : 2
+B-entity_name                           : 2
+B-album                                 : 2
+I-album                                 : 2
+B-object_select                         : 2
+I-playlist                              : 1
+I-poi                                   : 1
+B-music_item                            : 1
+I-object_name                           : 1
+B-movie_name                            : 1
+
+================================================================================
+TOP FALSE POSITIVE SLOTS
+================================================================================
+B-object_name                           : 8
+I-object_name                           : 3
+B-restaurant_type                       : 2
+I-entity_name                           : 1
+B-artist                                : 1
+B-playlist                              : 1
+I-playlist                              : 1
+I-spatial_relation                      : 1
+I-restaurant_type                       : 1
+B-timeRange                             : 1
+B-music_item                            : 1
+B-movie_type                            : 1
+B-spatial_relation                      : 1
+B-movie_name                            : 1
+
+================================================================================
+TOP WRONG SLOT TYPES
+================================================================================
+I-album                             -> I-track                             : 13
+I-movie_name                        -> I-object_name                       : 13
+B-object_name                       -> I-object_name                       : 6
+B-movie_name                        -> B-object_name                       : 6
+B-album                             -> B-track                             : 5
+I-playlist                          -> I-track                             : 4
+I-album                             -> I-entity_name                       : 4
+I-object_name                       -> B-object_name                       : 4
+I-playlist                          -> I-entity_name                       : 3
+I-track                             -> I-album                             : 3
+I-playlist                          -> I-album                             : 3
+B-playlist                          -> B-entity_name                       : 2
+I-entity_name                       -> I-playlist                          : 2
+B-artist                            -> B-entity_name                       : 2
+I-artist                            -> I-entity_name                       : 2
+I-playlist                          -> B-playlist                          : 2
+I-entity_name                       -> B-entity_name                       : 2
+I-entity_name                       -> B-music_item                        : 2
+B-cuisine                           -> B-served_dish                       : 2
+B-city                              -> B-poi                               : 2
+I-country                           -> I-state                             : 2
+I-album                             -> I-playlist                          : 2
+I-object_select                     -> B-object_select                     : 2
+B-entity_name                       -> B-playlist                          : 1
+B-artist                            -> I-artist                            : 1
+B-entity_name                       -> B-artist                            : 1
+I-cuisine                           -> I-served_dish                       : 1
+B-poi                               -> B-city                              : 1
+B-restaurant_name                   -> B-served_dish                       : 1
+I-restaurant_name                   -> I-served_dish                       : 1
+
+================================================================================
+FIRST 25 FAILED COMMANDS
+================================================================================
+
+TEXT: add digging now to my young at heart playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'digging' : B-playlist -> B-entity_name
+  'now' : I-playlist -> I-entity_name
+  'young' : B-entity_name -> B-playlist
+  'at' : I-entity_name -> I-playlist
+  'heart' : I-entity_name -> I-playlist
+
+TEXT: add this song by too poetic to my piano ballads playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'too' : B-artist -> B-entity_name
+  'poetic' : I-artist -> I-entity_name
+
+TEXT: add the song virales de siempre by the cary brothers to my gym playlist 
+INTENT: AddToPlaylist -> AddToPlaylist
+  'virales' : B-playlist -> B-entity_name
+  'de' : I-playlist -> I-entity_name
+  'siempre' : I-playlist -> I-entity_name
+  'by' : O -> I-entity_name
+  'the' : O -> B-artist
+  'cary' : B-artist -> I-artist
+  'gym' : O -> B-playlist
+
+TEXT: add millie corretjer to the rhythm playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'the' : B-playlist -> O
+  'rhythm' : I-playlist -> B-playlist
+
+TEXT: add the 40 cal tune to the laundry playlist 
+INTENT: AddToPlaylist -> AddToPlaylist
+  '40' : B-artist -> B-entity_name
+  'cal' : I-artist -> I-entity_name
+
+TEXT: add a very cellular song to masters of metal playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'a' : B-entity_name -> O
+  'very' : I-entity_name -> B-entity_name
+  'song' : I-entity_name -> B-music_item
+
+TEXT: add kent james to the disney soundtrack 
+INTENT: AddToPlaylist -> AddToPlaylist
+  'soundtrack' : O -> I-playlist
+
+TEXT: add abacab to beryl s party on fridays playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'abacab' : B-entity_name -> B-artist
+
+TEXT: add tommy johnson to the metalsucks playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'the' : B-playlist -> O
+  'metalsucks' : I-playlist -> B-playlist
+  'playlist' : I-playlist -> O
+
+TEXT: a very cellular song needs to be added to my masters of metal playlist
+INTENT: AddToPlaylist -> AddToPlaylist
+  'a' : B-entity_name -> O
+  'very' : I-entity_name -> B-entity_name
+  'song' : I-entity_name -> B-music_item
+
+TEXT: i need a table in sacaton at a gluten free restaurant
+INTENT: BookRestaurant -> BookRestaurant
+  'gluten' : B-cuisine -> B-served_dish
+  'free' : I-cuisine -> I-served_dish
+
+TEXT: book sot for me and my grandfather nearby west reading
+INTENT: BookRestaurant -> BookRestaurant
+  'reading' : I-poi -> O
+
+TEXT: book a reservation for the dome  edinburgh close to brooklawn
+INTENT: BookRestaurant -> BookRestaurant
+  'brooklawn' : B-poi -> B-city
+
+TEXT: book a table at a fried chicken restaurant
+INTENT: BookRestaurant -> BookRestaurant
+  'fried' : B-restaurant_name -> B-served_dish
+  'chicken' : I-restaurant_name -> I-served_dish
+  'restaurant' : I-restaurant_name -> B-restaurant_type
+
+TEXT: book a reservation for an osteria restaurant for 4 people on november 4
+INTENT: BookRestaurant -> BookRestaurant
+  'restaurant' : O -> B-restaurant_type
+
+TEXT: i want to book a top-rated restaurant close by in la for me  rebecca and loraine on 2/6/2020 
+INTENT: BookRestaurant -> BookRestaurant
+  'by' : O -> I-spatial_relation
+
+TEXT: book a reservation for 5 people at the top-rated brasserie restaurant
+INTENT: BookRestaurant -> BookRestaurant
+  'restaurant' : O -> I-restaurant_type
+
+TEXT: i would like to book a restaurant for souvlaki cuisine in the state of ne
+INTENT: BookRestaurant -> BookRestaurant
+  'souvlaki' : B-cuisine -> B-served_dish
+
+TEXT: book a reservation for 10 people at an oyster bar with a pool within the same area of cowansburg for 10 pm
+INTENT: BookRestaurant -> BookRestaurant
+  'cowansburg' : B-city -> B-poi
+
+TEXT: lets eat near oakfield 17 seconds from now at ted peters famous smoked fish
+INTENT: BookRestaurant -> BookRestaurant
+  'oakfield' : B-city -> B-poi
+
+TEXT: book a restaurant for six at an outdoor cafe in åland
+INTENT: BookRestaurant -> BookRestaurant
+  'cafe' : O -> B-restaurant_type
+  'åland' : B-country -> B-city
+
+TEXT: book me a reservation for a party of 3 at a pub in northern mariana islands
+INTENT: BookRestaurant -> BookRestaurant
+  'northern' : B-country -> B-state
+  'mariana' : I-country -> I-state
+  'islands' : I-country -> I-state
+
+TEXT: i want to book a bougatsa restaurant in next year nearby penn for three people 
+INTENT: BookRestaurant -> BookRestaurant
+  'penn' : B-city -> B-state
+
+TEXT: book a reservation for nine people at the best pub nearby tangier in six months
+INTENT: BookRestaurant -> BookRestaurant
+  'tangier' : B-city -> B-country
+
+TEXT: need weather for parc national tolhuaca to see if it will be fog today
+INTENT: GetWeather -> GetWeather
+  'today' : O -> B-timeRange
+
+Saved:
+/workspace/ml/results/error_analysis/v3_decoder_valid_errors.json
+/workspace/ml/results/error_analysis/v3_decoder_valid_summary.json

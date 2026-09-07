@@ -1,0 +1,50 @@
+Loaded baseline tensors: 203
+New V3 tensors: ['intent_embedding.weight', 'global_context_proj.weight', 'global_context_proj.bias']
+======================================================================
+CDAC COMMAND SLM V3
+======================================================================
+Backbone : microsoft/MiniLM-L12-H384-uncased
+Device   : cuda
+Parameters: 33,540,943
+Starting from: /workspace/ml/checkpoints/minilm_l12
+Slot loss weight: 1.5
+Effective batch: 32
+======================================================================
+
+Epoch 1/5
+  loss        : 0.1322
+  intent acc  : 0.9900
+  slot F1     : 0.9484
+  exact frame : 0.8786
+  >>> NEW BEST V3 MODEL
+
+Epoch 2/5
+  loss        : 0.1084
+  intent acc  : 0.9886
+  slot F1     : 0.9522
+  exact frame : 0.8843
+  >>> NEW BEST V3 MODEL
+
+Epoch 3/5
+  loss        : 0.0936
+  intent acc  : 0.9871
+  slot F1     : 0.9548
+  exact frame : 0.8929
+  >>> NEW BEST V3 MODEL
+
+Epoch 4/5
+  loss        : 0.0856
+  intent acc  : 0.9871
+  slot F1     : 0.9537
+  exact frame : 0.8900
+
+Epoch 5/5
+  loss        : 0.0782
+  intent acc  : 0.9886
+  slot F1     : 0.9559
+  exact frame : 0.8914
+
+======================================================================
+V3 TRAINING COMPLETE
+Best raw exact frame: 0.8929
+======================================================================

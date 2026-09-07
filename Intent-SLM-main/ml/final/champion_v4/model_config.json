@@ -1,0 +1,8 @@
+{
+  "architecture": "intent_conditioned_v3",
+  "backbone": "microsoft/MiniLM-L12-H384-uncased",
+  "num_intents": 7,
+  "num_slots": 72,
+  "dropout": 0.1,
+  "max_length": 48
+}

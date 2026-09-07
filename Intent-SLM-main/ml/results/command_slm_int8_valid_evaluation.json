@@ -1,0 +1,14 @@
+{
+  "model": "/workspace/ml/exported/champion_v4/command_slm_int8.onnx",
+  "split": "valid",
+  "examples": 700,
+  "intent_accuracy": 0.9885714285714285,
+  "slot_f1": 0.9541284403669725,
+  "slot_sentence_accuracy": 0.8942857142857142,
+  "exact_frame_accuracy": 0.8942857142857142,
+  "latency_ms": {
+    "mean": 12.799053584156875,
+    "p50": 12.416067998856306,
+    "p95": 17.435504599416163
+  }
+}

@@ -1,0 +1,75 @@
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.pyc
+
+# ─── Virtual environments ─────────────────────────────────────────────────────
+.venv/
+.venv_bench/
+venv/
+env/
+
+# ─── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── Model checkpoints & large binaries ───────────────────────────────────────
+# Keep final/ and mobile_bundle configs, but skip heavy binary files
+ml/checkpoints/
+ml/data/raw/
+ml/data/processed/
+ml/data/processed_v4/
+ml/asr_backup/
+ml/exported/*.onnx
+ml/final/champion_v4/model.safetensors
+ml/final/mobile_bundle/command_slm_int8.onnx
+mobile/cdac_assistant/assets/models/*.onnx
+mobile/cdac_assistant/assets/asr/**/*.bin
+
+# ─── HuggingFace / Torch caches ──────────────────────────────────────────────
+cache/
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+# (compose.yaml and Dockerfile are tracked)
+
+# ─── Flutter / Dart ───────────────────────────────────────────────────────────
+mobile/cdac_assistant/.dart_tool/
+mobile/cdac_assistant/.flutter-plugins
+mobile/cdac_assistant/.flutter-plugins-dependencies
+mobile/cdac_assistant/build/
+mobile/cdac_assistant/.packages
+mobile/cdac_assistant/pubspec.lock
+mobile/cdac_assistant/.venv_bench/
+# Backup files created during development
+mobile/cdac_assistant/lib/*.before_*
+mobile/cdac_assistant/false,
+
+# ─── Android ──────────────────────────────────────────────────────────────────
+mobile/cdac_assistant/android/.gradle/
+mobile/cdac_assistant/android/local.properties
+mobile/cdac_assistant/android/key.properties
+mobile/cdac_assistant/android/app/debug.keystore
+*.apk
+*.aab
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Final submission zip (large) ─────────────────────────────────────────────
+final_submission/*.zip
